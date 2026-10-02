@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Microzone</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+html,body,#map{height:100%;margin:0}
+.numero{background:white;border:1px solid #555;box-shadow:none;font-weight:bold;padding:2px 5px}
+</style>
+</head>
+
+<body>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+const map=L.map("map");
+
+L.tileLayer(
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        maxZoom:19,
+        attribution:"&copy; OpenStreetMap contributors"
+    }
+).addTo(map);
+
+const quadrati=[{"n":1,"maxLat":45.541706,"minLat":45.538112999999996,"minLon":10.198789,"maxLon":10.203629},{"n":2,"maxLat":45.541706,"minLat":45.538112999999996,"minLon":10.203629,"maxLon":10.208469},{"n":3,"maxLat":45.541706,"minLat":45.538112999999996,"minLon":10.208469,"maxLon":10.213308999999999},{"n":4,"maxLat":45.541706,"minLat":45.538112999999996,"minLon":10.213308999999999,"maxLon":10.218148999999999},{"n":5,"maxLat":45.541706,"minLat":45.538112999999996,"minLon":10.218148999999999,"maxLon":10.222988999999998},{"n":6,"maxLat":45.541706,"minLat":45.538112999999996,"minLon":10.222988999999998,"maxLon":10.227828999999998},{"n":7,"maxLat":45.538112999999996,"minLat":45.53451999999999,"minLon":10.198789,"maxLon":10.203629},{"n":8,"maxLat":45.538112999999996,"minLat":45.53451999999999,"minLon":10.203629,"maxLon":10.208469},{"n":9,"maxLat":45.538112999999996,"minLat":45.53451999999999,"minLon":10.208469,"maxLon":10.213308999999999},{"n":10,"maxLat":45.538112999999996,"minLat":45.53451999999999,"minLon":10.213308999999999,"maxLon":10.218148999999999},{"n":11,"maxLat":45.538112999999996,"minLat":45.53451999999999,"minLon":10.218148999999999,"maxLon":10.222988999999998},{"n":12,"maxLat":45.538112999999996,"minLat":45.53451999999999,"minLon":10.222988999999998,"maxLon":10.227828999999998},{"n":13,"maxLat":45.53451999999999,"minLat":45.53092699999999,"minLon":10.198789,"maxLon":10.203629},{"n":14,"maxLat":45.53451999999999,"minLat":45.53092699999999,"minLon":10.203629,"maxLon":10.208469},{"n":15,"maxLat":45.53451999999999,"minLat":45.53092699999999,"minLon":10.208469,"maxLon":10.213308999999999},{"n":16,"maxLat":45.53451999999999,"minLat":45.53092699999999,"minLon":10.213308999999999,"maxLon":10.218148999999999},{"n":17,"maxLat":45.53451999999999,"minLat":45.53092699999999,"minLon":10.218148999999999,"maxLon":10.222988999999998},{"n":18,"maxLat":45.53451999999999,"minLat":45.53092699999999,"minLon":10.222988999999998,"maxLon":10.227828999999998},{"n":19,"maxLat":45.53092699999999,"minLat":45.52733399999999,"minLon":10.208469,"maxLon":10.213308999999999},{"n":20,"maxLat":45.53092699999999,"minLat":45.52733399999999,"minLon":10.213308999999999,"maxLon":10.218148999999999},{"n":21,"maxLat":45.53092699999999,"minLat":45.52733399999999,"minLon":10.218148999999999,"maxLon":10.222988999999998},{"n":22,"maxLat":45.53092699999999,"minLat":45.52733399999999,"minLon":10.222988999999998,"maxLon":10.227828999999998},{"n":23,"maxLat":45.52733399999999,"minLat":45.52374099999999,"minLon":10.208469,"maxLon":10.213308999999999},{"n":24,"maxLat":45.52733399999999,"minLat":45.52374099999999,"minLon":10.213308999999999,"maxLon":10.218148999999999},{"n":25,"maxLat":45.52733399999999,"minLat":45.52374099999999,"minLon":10.218148999999999,"maxLon":10.222988999999998},{"n":26,"maxLat":45.52374099999999,"minLat":45.520147999999985,"minLon":10.208469,"maxLon":10.213308999999999},{"n":27,"maxLat":45.52374099999999,"minLat":45.520147999999985,"minLon":10.213308999999999,"maxLon":10.218148999999999}];
+const gruppo=L.featureGroup().addTo(map);
+
+quadrati.forEach(q=>{
+
+    const p=L.polygon([
+        [q.maxLat,q.minLon],
+        [q.maxLat,q.maxLon],
+        [q.minLat,q.maxLon],
+        [q.minLat,q.minLon]
+    ],{
+        color:"#006cff",
+        weight:2,
+        fillOpacity:.10
+    });
+
+    p.bindTooltip(
+        String(q.n),
+        {
+            permanent:true,
+            direction:"center",
+            className:"numero"
+        }
+    );
+
+    p.bindPopup("<b>Microzona - "+q.n+"</b>");
+    p.addTo(gruppo);
+});
+
+map.fitBounds(gruppo.getBounds(),{padding:[30,30]});
+
+L.control.scale({
+    metric:true,
+    imperial:false
+}).addTo(map);
+
+</script>
+</body>
+</html>
