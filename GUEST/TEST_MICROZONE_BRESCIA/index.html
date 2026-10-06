@@ -72,6 +72,8 @@ I.forEach(x=>{
  .addTo(g);
 });
 
+// Barriere usate per la geometria degli isolati, ma NON visualizzate sulla mappa.
+/*
 B.forEach(x=>
  L.geoJSON(
   x.geojson,
@@ -80,6 +82,7 @@ B.forEach(x=>
  .bindPopup(x.tipo)
  .addTo(map)
 );
+*/
 
 if(g.getLayers().length)
  map.fitBounds(g.getBounds(),{padding:[20,20]});
