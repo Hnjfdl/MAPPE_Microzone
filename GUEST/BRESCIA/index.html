@@ -57,7 +57,7 @@ M.forEach(f=>{const p=f.properties,c=colori["microzona:"+p.microzonaId]||"#777";
     "<br>Compatt​ezza: "+p.compattezza+(p.taglioGeometrico?"<br>Include un taglio geometrico di dimensionamento":"")+
     (p.necessitaVerifica?"<br><b>Verificare dimensione o forma</b>":"")+(p.bordoArtificiale?"<br>Chiusura esterna senza strada disponibile":"")+"<br>Omogeneità immobiliare da verificare").addTo(mg);
 });
-F.forEach(f=>L.geoJSON(f,{style:{color:"#444",weight:1,fillColor:"#777",fillOpacity:.35}}).bindPopup("Fascia di separazione: esclusa dalle Microzone immobiliari").addTo(fg));
+F.forEach(f=>L.geoJSON(f,{style:{stroke:false,fill:false},interactive:false}).bindPopup("Fascia di separazione: esclusa dalle Microzone immobiliari").addTo(fg));
 if(F.length)fg.addTo(map);
 L.control.layers(null,{...(M.length?{"Microzone":mg}:{}),"Isolati":g,...livelli,...(F.length?{"Fasce di separazione":fg}:{})},{collapsed:false}).addTo(map);
 const visibile=M.length?mg:g;if(visibile.getLayers().length)map.fitBounds(visibile.getBounds(),{padding:[20,20]});
